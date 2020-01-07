@@ -1,14 +1,19 @@
 import { autoSubscribe, AutoSubscribeStore, StoreBase } from 'resub'
+
 export interface ScreenState {
-    name: string
+    name: string,
+    error?: Error
 }
+
 @AutoSubscribeStore
 export class ScreenViewModel extends StoreBase {
-    repo
-    state: ScreenState
-    constructor(repo) {
+
+    private bookRepository
+    private state: ScreenState
+
+    constructor(bookRepository) {
         super()
-        this.repo = repo
+        this.bookRepository = bookRepository
         this.state = this.defaultState()
     }
 
@@ -35,10 +40,23 @@ export class ScreenViewModel extends StoreBase {
 
     }
 
+    // geting data from bookrepository and setting to this state
     async getData() {
-        const data = await this.repo.getData()
-        console.log('data in vm', data)
-        this.setState({ ...this.state, name: data })
+
+        try {
+            const data = await this.bookRepository.getData()
+            console.log('data in vm', data)
+            this.setState({
+                ...this.state,
+                name: data
+            })
+        } catch (error) {
+            this.setState({
+                ...this.state,
+                error: error.msg
+            })
+        }
+
     }
 
 }
