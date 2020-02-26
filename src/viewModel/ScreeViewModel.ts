@@ -1,4 +1,5 @@
 import { autoSubscribe, AutoSubscribeStore, StoreBase } from 'resub'
+import { BookRepository } from '../domain/repository/BookRepository'
 
 export interface ScreenState {
     name: string,
@@ -8,7 +9,7 @@ export interface ScreenState {
 @AutoSubscribeStore
 export class ScreenViewModel extends StoreBase {
 
-    private bookRepository
+    private bookRepository: BookRepository
     private state: ScreenState
 
     constructor(bookRepository) {

@@ -9,6 +9,7 @@ export default class App extends ComponentBase<any, ScreenState> {
 
     constructor(props) {
         super(props)
+        DependencyInjector.initilize()
         this.viewModel = DependencyInjector.default().provideScreenViewModel()
     }
 

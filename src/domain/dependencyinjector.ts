@@ -3,8 +3,8 @@ import { ApiManager } from './api/ApiManeger'
 import { BookRepository } from './repository/BookRepository'
 
 export class DependencyInjector {
-    private bookRepository
-    private apiManager
+    private bookRepository: BookRepository
+    private apiManager: ApiManager
     static shared: DependencyInjector
     constructor() {
         // Creating ApiManeger refernce 
@@ -13,13 +13,15 @@ export class DependencyInjector {
         // creating bookrepository refernce by sending apimaneger reference to BookRepository constructor
         this.bookRepository = new BookRepository(this.apiManager)
     }
+    public static initilize() {
+        if (!this.shared) {
+            this.shared = new DependencyInjector()
+
+        }
+    }
 
     // static function to create DependencyInjector reference 
     static default() {
-        if (!this.shared) {
-            this.shared = new DependencyInjector()
-            return this.shared
-        }
         return this.shared
     }
 
