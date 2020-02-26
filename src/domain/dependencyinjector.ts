@@ -5,6 +5,7 @@ import { BookRepository } from './repository/BookRepository'
 export class DependencyInjector {
     private bookRepository
     private apiManager
+    static shared: DependencyInjector
     constructor() {
         // Creating ApiManeger refernce 
         this.apiManager = new ApiManager()
@@ -15,7 +16,11 @@ export class DependencyInjector {
 
     // static function to create DependencyInjector reference 
     static default() {
-        return new DependencyInjector()
+        if (!this.shared) {
+            this.shared = new DependencyInjector()
+            return this.shared
+        }
+        return this.shared
     }
 
     // creating and providing ScreenViewModel by passing BookRepository reference to ScreenViewModel constructor to screenView.tsx
